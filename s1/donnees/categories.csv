@@ -1,0 +1,11 @@
+category_id,category_name,parent_category_id
+1,Maison,
+2,Loisirs,
+3,Atelier,1
+4,Extérieur,2
+11,Rangement,3
+12,Outillage,3
+21,Cuisine,1
+22,Jardin,4
+31,Randonnée,4
+32,Jeux de table,2

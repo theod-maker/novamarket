@@ -1,0 +1,3 @@
+{"reservation_id":1,"salle_id":1,"heures":2}
+{"reservation_id":2,"salle_id":1,"heures":3}
+{"reservation_id":3,"salle_id":2,"heures":1}
