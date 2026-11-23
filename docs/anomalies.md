@@ -1,4 +1,4 @@
-# M4 — Anomalies, détection, effet, décision
+# M4 : Anomalies, détection, effet, décision
 
 Chiffres issus de `resultats/05_anomalies.txt` (script `sql/05_anomalies.sql`).
 

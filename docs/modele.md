@@ -1,4 +1,4 @@
-# M1 — Modèle relationnel NovaMarket
+# M1 : Modèle relationnel NovaMarket
 
 ## Grain des sources
 

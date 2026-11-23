@@ -1,4 +1,4 @@
-# NovaMarket — S1 : SQL relationnel et premiers indicateurs
+# NovaMarket S1 : SQL relationnel et premiers indicateurs
 
 Base PostgreSQL fiable construite à partir des sources NovaMarket, journal des rejets et
 indicateurs commerciaux reproductibles.
