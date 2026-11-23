@@ -1,18 +1,26 @@
-# NovaMarket S1 : SQL relationnel et premiers indicateurs
+# NovaMarket S1–S2 : base PostgreSQL, analyses SQL et benchmark
 
-Base PostgreSQL fiable construite à partir des sources NovaMarket, journal des rejets et
-indicateurs commerciaux reproductibles.
+Ce projet charge les fichiers NovaMarket dans PostgreSQL, garde la trace des lignes rejetées,
+calcule les indicateurs de ventes (S1), intègre le catalogue et fait les analyses avancées (S2),
+puis mesure l'effet d'un index sur un jeu de 10 millions de lignes (benchmark).
 
 ## Exécution
 
-Prérequis : Docker et Docker Compose. Depuis ce dossier :
+Prérequis : Docker et Docker Compose. Toutes les commandes se lancent depuis ce dossier.
 
 ```bash
-./scripts/run_all.sh
+./scripts/run_all.sh        # S1 + S2 : schéma, imports, catalogue, indicateurs, analyses
+./scripts/run_benchmark.sh  # benchmark : génération si besoin, mesures avant/après index
 ```
 
-Le script démarre PostgreSQL, recrée les schémas, importe les sources dans une seule transaction,
-puis écrit les sorties dans `resultats/`. Il peut être relancé : il repart toujours d'une base vide.
+`run_all.sh` démarre PostgreSQL, copie `s2/donnees/` dans le conteneur, recrée les schémas
+`reception`, `quality` et `core`, importe toutes les sources, puis écrit les sorties dans `resultats/`.
+Il repart toujours des fichiers bruts : le relancer redonne exactement les mêmes résultats. Il ne touche
+pas au schéma `benchmark`.
+
+`run_benchmark.sh` lance `s3/generer.sql` seulement si `benchmark.benchmark_sales` est absente
+(environ 4 s, 500 Mo), vérifie les 10 000 000 lignes, supprime l'index de test, mesure, crée l'index,
+mesure à nouveau et écrit les plans dans `resultats/benchmark/`.
 
 Connexion manuelle :
 
@@ -20,21 +28,33 @@ Connexion manuelle :
 docker compose exec postgres psql -X -U atelier -d novamarket
 ```
 
-Depuis un éditeur SQL sur l'hôte : `127.0.0.1:15432`, base `novamarket`, utilisateur `atelier`.
+Depuis un éditeur SQL sur l'hôte : `127.0.0.1:15432`, base `novamarket`, utilisateur `atelier`. Si le
+port ou le sous-réseau sont déjà pris, voir `SAUVEGARDE_SQL.md` (`NOVAMARKET_PG_PORT`,
+`NOVAMARKET_SUBNET`).
 
 ## Organisation
 
 | Chemin | Contenu |
 | --- | --- |
-| `s1/donnees/` | sources brutes, jamais modifiées (montées en lecture seule) |
-| `sql/01_schema.sql` | schémas `reception`, `quality`, `core` et contraintes |
-| `sql/02_import.sql` | chargement brut, contrôles ligne à ligne, rejets, intégration |
-| `sql/03_controls.sql` | volumes reçus, intégrés et rejetés, journal des rejets, cohérence |
-| `sql/04_indicators.sql` | indicateurs M3 |
-| `sql/05_anomalies.sql` | démonstrations M4 |
-| `docs/modele.md` | M1 : grain, schéma annoté, choix justifiés |
-| `docs/anomalies.md` | M4 : tableau anomalie, détection, effet, décision |
-| `resultats/` | sorties de la dernière exécution : `.adoc` (tableaux lisibles sur GitHub) et `.txt` (terminal) |
+| `s1/`, `s2/`, `s3/` | kits fournis : sources brutes (jamais modifiées), exemples, générateur du benchmark |
+| `sql/01_schema.sql` | S1 : schémas `reception`, `quality`, `core` et contraintes |
+| `sql/02_import.sql` | S1 : chargement brut, contrôles, rejets, intégration |
+| `sql/03_controls.sql` | S1 : volumes reçus, intégrés et rejetés, journal des rejets |
+| `sql/04_indicators.sql` | S1 : statuts, clients sans commande, CA, panier moyen, rapprochement |
+| `sql/05_anomalies.sql` | S1 : doublon, faux doublons de paiement, jointure qui multiplie, statuts |
+| `sql/06_catalog.sql` | S2 : tables et import des catégories et produits, clé étrangère produit |
+| `sql/07_catalog_controls.sql` | S2 : volumes, doublon, couverture des codes, cohérence des dates |
+| `sql/08_rankings.sql` | S2 : `RANK`, `DENSE_RANK`, ex aequo, effet d'une duplication |
+| `sql/09_evolution.sql` | S2 : `LAG`, `LEAD`, couverture des périodes |
+| `sql/10_segmentation.sql` | S2 : `NTILE(4)`, population, égalités |
+| `sql/11_hierarchy.sql` | S2 : `WITH RECURSIVE`, cycles, CA par famille, double comptage |
+| `sql/benchmark/` | mesures, création de l'index, analyses du benchmark |
+| `docs/modele.md` | S1 : grain, schéma annoté, choix justifiés |
+| `docs/anomalies.md` | S1 : tableau anomalie, détection, effet, décision |
+| `docs/catalogue.md` | S2 : intégration du catalogue et anomalies |
+| `docs/analyses.md` | S2 : résultats et limites des analyses avancées |
+| `docs/benchmark.md` | S2 : protocole, mesures, index efficace et inefficace, estimations |
+| `resultats/` | sorties de la dernière exécution : `.adoc` (tableaux lisibles sur GitHub) et `.txt` |
 
 ## Volumes
 
@@ -42,29 +62,36 @@ Depuis un éditeur SQL sur l'hôte : `127.0.0.1:15432`, base `novamarket`, utili
 | --- | --- | --- | --- |
 | customers.csv | 180 | 180 | 0 |
 | orders.csv | 400 | 400 | 0 |
-| order_items.csv | 802 | 800 | 2 (1 doublon exact, 1 commande orpheline) |
+| order_items.csv | 802 | 800 | 2 (1 doublon exact, 1 commande inexistante) |
 | payments.ndjson | 480 | 480 | 0 |
+| categories.csv | 10 | 10 | 0 |
+| products.csv | 25 | 24 | 1 (doublon exact du produit 3) |
+| benchmark.benchmark_sales | 10 000 000 générées | | |
 
-## Indicateurs principaux
+## Résultats principaux
 
-| Indicateur | Valeur | Définition |
+| Sujet | Résultat | Détail |
 | --- | --- | --- |
-| Commandes | 320 completed, 40 pending, 40 cancelled | une ligne par commande |
-| Clients sans commande | 30 sur 180 | `NOT EXISTS` sur les commandes |
-| Montant des lignes des commandes terminées | 26 210,00 € | somme `quantity * unit_price_cents`, statut `completed` |
-| Panier moyen | 81,91 € | montant ci-dessus / 320 commandes terminées |
-| Paiements encaissés des commandes terminées | 26 210,00 € | égal au montant des articles pour les 320 commandes |
+| CA des commandes terminées | 26 210,00 € pour 320 commandes | égal aux paiements encaissés |
+| Panier moyen | 81,91 € | CA / nombre de commandes terminées |
+| Meilleur produit | produit 23, 2 733,75 € | `docs/analyses.md` |
+| Évolution mensuelle | -39,3 % en novembre, mais -0,9 % par jour | novembre incomplet (19 jours) |
+| Quartiles clients | le 1er quart fait 35,4 % du CA | 120 clients avec commande terminée |
+| Familles | Loisirs 68,5 %, Maison 31,5 % | somme des niveaux = 2,6 fois le total |
+| Index sur `store_id` | 123 ms → 0,02 ms pour 100 lignes ; aucun gain pour 95 % des lignes | `docs/benchmark.md` |
 
-Hypothèses : le chiffre d'affaires se limite aux commandes `completed` ; le montant d'une ligne est
-le prix unitaire de la transaction ; les totaux des articles et des paiements sont calculés séparément,
-jamais dans une même jointure.
+Hypothèses : le chiffre d'affaires se limite aux commandes `completed` ; le montant d'une ligne est le
+prix unitaire de la transaction ; on agrège chaque table avant de joindre, pour ne pas multiplier les
+lignes.
 
 ## État et limites
 
-- Socle M1 à M5 fait : schéma, imports vérifiables, indicateurs, tableau d'anomalies.
-- Commandes annulées avec 3 283,75 € encaissés : aucun remboursement dans les sources, point à
-  confirmer avec NovaMarket.
-- Catalogue (`products.csv`, `categories.csv`) non intégré : hors périmètre S1.
-- Contrôles limités aux anomalies du périmètre S1 (doublons, statuts, références inexistantes) :
+- S1 (M1 à M5) et S2 (catalogue, classements, évolution, segmentation, hiérarchie, benchmark) faits.
+- Commandes annulées avec 3 283,75 € encaissés : aucun remboursement dans les sources, à confirmer avec
+  NovaMarket.
+- Produit 6 vendu avant sa date de mise en vente déclarée : ventes conservées, date du catalogue à
+  vérifier.
+- Contrôles d'import limités aux anomalies rencontrées (doublons, statuts, références inexistantes) :
   une valeur mal typée (texte dans une quantité) arrêterait l'import au lieu d'être rejetée.
-- A1 (approfondissement facultatif : normalisation, variantes de jointure) : non traité.
+- Benchmark mesuré sur un seul poste, sans démarrage à froid : voir les limites dans `docs/benchmark.md`.
+- Approfondissement S1 A1 (normalisation du planning) : non traité.

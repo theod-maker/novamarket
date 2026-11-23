@@ -11,9 +11,8 @@
 | `products.csv` | un produit du catalogue | `product_id` | 1 catégorie → N produits ; 1 produit → N lignes d'articles |
 | `categories.csv` | une catégorie de produits | `category_id` | 1 catégorie parente → N sous-catégories (`parent_category_id` pointe vers la même table) |
 
-`products.csv` et `categories.csv` sont examinés mais pas intégrés : le dictionnaire des sources
-les place hors périmètre S1. `product_id` est donc conservé sans clé étrangère vers un catalogue.
-À noter pour la suite : `product_id` 3 apparaît deux fois dans `products.csv`.
+En S1, `products.csv` et `categories.csv` étaient hors périmètre. Ils sont intégrés en S2 (voir
+`catalogue.md`) : `order_items.product_id` reçoit alors sa clé étrangère vers `core.products`.
 
 ## Schéma
 
@@ -22,6 +21,9 @@ erDiagram
     CUSTOMERS ||--o{ ORDERS : passe
     ORDERS ||--|{ ORDER_ITEMS : contient
     ORDERS ||--o{ PAYMENTS : "est réglée par"
+    PRODUCTS ||--o{ ORDER_ITEMS : "est vendu dans"
+    CATEGORIES ||--o{ PRODUCTS : classe
+    CATEGORIES ||--o{ CATEGORIES : "est parent de"
 
     CUSTOMERS {
         integer customer_id PK
@@ -37,7 +39,7 @@ erDiagram
     ORDER_ITEMS {
         integer order_item_id PK
         integer order_id FK "NOT NULL"
-        integer product_id "NOT NULL, catalogue hors S1"
+        integer product_id FK "NOT NULL, clé ajoutée en S2"
         integer quantity "CHECK > 0"
         integer unit_price_cents "CHECK >= 0"
     }
@@ -47,6 +49,18 @@ erDiagram
         date paid_on "NOT NULL"
         integer amount_cents "CHECK > 0"
         text status "captured | pending"
+    }
+    PRODUCTS {
+        integer product_id PK
+        text sku "UNIQUE"
+        text product_name "NOT NULL"
+        integer category_id FK "NOT NULL"
+        date first_listed_on "NOT NULL"
+    }
+    CATEGORIES {
+        integer category_id PK
+        text category_name "NOT NULL"
+        integer parent_category_id FK "vide pour une racine"
     }
 ```
 
