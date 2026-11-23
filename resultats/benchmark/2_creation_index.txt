@@ -1,0 +1,22 @@
+
+== Taille de la table avant index
+ table_size | total_size 
+------------+------------
+ 498 MB     | 498 MB
+(1 row)
+
+
+== Creation de l index (duree mesuree par psql)
+Timing is on.
+CREATE INDEX
+Time: 1266.082 ms (00:01.266)
+ANALYZE
+Time: 72.917 ms
+Timing is off.
+
+== Taille de l index
+ index_size | index_size_bytes | total_size_with_index 
+------------+------------------+-----------------------
+ 66 MB      |         69279744 | 564 MB
+(1 row)
+

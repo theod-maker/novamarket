@@ -1,0 +1,5 @@
+Date : 2026-11-23 15:32
+Poste : Darwin arm64, Docker 29.3.1
+PostgreSQL 17.12 (Debian 17.12-1.pgdg12+1) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit
+shared_buffers = 128MB, work_mem = 4MB, max_parallel_workers_per_gather = 2
+Limites du conteneur : 2 CPU, 2 Go de memoire (compose.yaml)
