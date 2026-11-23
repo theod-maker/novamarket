@@ -10,10 +10,8 @@ run_psql() {
 
 docker compose up -d --wait postgres
 
-row_count=$(run_psql -At -c \
-  "SELECT CASE WHEN to_regclass('benchmark.benchmark_sales') IS NULL THEN 0
-          ELSE (SELECT COUNT(*) FROM benchmark.benchmark_sales) END")
-if [ "$row_count" -eq 0 ]; then
+table_exists=$(run_psql -At -c "SELECT to_regclass('benchmark.benchmark_sales') IS NOT NULL")
+if [ "$table_exists" = "f" ]; then
   run_psql < s3/generer.sql
 fi
 run_psql -At -c "SELECT COUNT(*) FROM benchmark.benchmark_sales" | grep -qx 10000000
