@@ -1,3 +1,4 @@
+\echo ''
 \echo '== I1. Commandes par statut'
 SELECT
     status,
@@ -7,6 +8,7 @@ FROM core.orders
 GROUP BY status
 ORDER BY order_count DESC;
 
+\echo ''
 \echo '== I2. Clients sans commande'
 SELECT
     count(*) AS customers_without_order,
@@ -14,12 +16,14 @@ SELECT
 FROM core.customers AS c
 WHERE NOT EXISTS (SELECT 1 FROM core.orders AS o WHERE o.customer_id = c.customer_id);
 
+\echo ''
 \echo '== I2 bis. Detail des clients sans commande'
 SELECT c.customer_id, c.customer_name, c.city
 FROM core.customers AS c
 WHERE NOT EXISTS (SELECT 1 FROM core.orders AS o WHERE o.customer_id = c.customer_id)
 ORDER BY c.customer_id;
 
+\echo ''
 \echo '== I3. Montant des lignes des commandes terminees et panier moyen'
 \echo '   Denominateur : nombre de commandes au statut completed (une ligne par commande).'
 WITH completed_order_totals AS (
@@ -38,6 +42,7 @@ SELECT
     round(avg(order_amount_cents) / 100.0, 2) AS average_basket_eur
 FROM completed_order_totals;
 
+\echo ''
 \echo '== I3 bis. Par mois de commande'
 WITH completed_order_totals AS (
     SELECT
@@ -58,6 +63,7 @@ FROM completed_order_totals
 GROUP BY order_month
 ORDER BY order_month;
 
+\echo ''
 \echo '== I4. Rapprochement articles / paiements, agreges par commande avant la jointure'
 WITH item_totals AS (
     SELECT order_id, sum(quantity * unit_price_cents) AS items_cents

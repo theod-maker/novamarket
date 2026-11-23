@@ -1,9 +1,11 @@
+\echo ''
 \echo '== A1. Rejets par cause'
 SELECT source_file, reason, count(*) AS rejected_rows, string_agg(source_key, ', ') AS source_keys
 FROM quality.rejected_rows
 GROUP BY source_file, reason
 ORDER BY source_file, reason;
 
+\echo ''
 \echo '== A2. Effet du doublon de ligne s il avait ete integre (commandes terminees)'
 SELECT
     round((
@@ -19,6 +21,7 @@ SELECT
         WHERE o.status = 'completed'
     ) / 100.0, 2) AS revenue_from_core_eur;
 
+\echo ''
 \echo '== A3. Paiements identiques (meme commande, date, montant, statut) : doublons ou fractionnement ?'
 WITH identical_groups AS (
     SELECT order_id, paid_on, amount_cents, status, count(*) AS payment_count,
@@ -46,6 +49,7 @@ FROM identical_groups AS g
 JOIN item_totals AS it ON it.order_id = g.order_id
 JOIN payment_totals AS pt ON pt.order_id = g.order_id;
 
+\echo ''
 \echo '== A3 bis. Exemples de paiements identiques'
 SELECT p.order_id, p.payment_id, p.paid_on, p.amount_cents, p.status,
     (SELECT sum(i.quantity * i.unit_price_cents) FROM core.order_items AS i
@@ -60,6 +64,7 @@ WHERE p.order_id IN (
 )
 ORDER BY p.order_id, p.payment_id;
 
+\echo ''
 \echo '== A4. Multiplication des montants : jointure directe articles x paiements (commandes terminees)'
 SELECT
     'jointure_directe' AS method,
@@ -87,6 +92,7 @@ JOIN (
 ) AS pt ON pt.order_id = o.order_id
 WHERE o.status = 'completed';
 
+\echo ''
 \echo '== A5. Impact du statut de commande sur le chiffre d affaires'
 WITH item_totals AS (
     SELECT order_id, sum(quantity * unit_price_cents) AS items_cents
@@ -109,6 +115,7 @@ WHERE scope.is_included
 GROUP BY perimeter
 ORDER BY perimeter;
 
+\echo ''
 \echo '== A6. Commandes annulees avec paiement encaisse'
 SELECT
     count(DISTINCT o.order_id) AS cancelled_orders_with_capture,

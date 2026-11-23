@@ -1,3 +1,4 @@
+
 == A1. Rejets par cause
    source_file   |     reason      | rejected_rows | source_keys 
 -----------------+-----------------+---------------+-------------
@@ -5,17 +6,20 @@
  order_items.csv | orphan_order    |             1 | 801
 (2 rows)
 
+
 == A2. Effet du doublon de ligne s il avait ete integre (commandes terminees)
  revenue_from_raw_lines_eur | revenue_from_core_eur 
 ----------------------------+-----------------------
                    26243.75 |              26210.00
 (1 row)
 
+
 == A3. Paiements identiques (meme commande, date, montant, statut) : doublons ou fractionnement ?
  identical_groups | groups_where_all_payments_needed | groups_where_one_payment_is_extra 
 ------------------+----------------------------------+-----------------------------------
                27 |                               27 |                                 0
 (1 row)
+
 
 == A3 bis. Exemples de paiements identiques
  order_id | payment_id |  paid_on   | amount_cents |  status  | order_items_cents 
@@ -28,12 +32,14 @@
        35 |         42 | 2026-09-07 |         3875 | captured |              7750
 (6 rows)
 
+
 == A4. Multiplication des montants : jointure directe articles x paiements (commandes terminees)
          method          | joined_rows | items_eur | payments_eur 
 -------------------------+-------------+-----------+--------------
  jointure_directe        |         720 |  29472.50 |     52420.00
  agregation_par_commande |         320 |  26210.00 |     26210.00
 (2 rows)
+
 
 == A5. Impact du statut de commande sur le chiffre d affaires
       perimeter      | order_count | items_eur 
@@ -42,6 +48,7 @@
  2_completed_pending |         360 |  29433.75
  3_tous_statuts      |         400 |  32717.50
 (3 rows)
+
 
 == A6. Commandes annulees avec paiement encaisse
  cancelled_orders_with_capture | captured_payments | captured_eur 

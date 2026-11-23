@@ -1,0 +1,65 @@
+
+== A1. Rejets par cause
+
+[options="header",cols="<l,<l,>l,<l",frame="none"]
+|====
+^l|source_file ^l|reason ^l|rejected_rows ^l|source_keys
+|order_items.csv |duplicate_exact |1 |7
+|order_items.csv |orphan_order |1 |801
+|====
+
+== A2. Effet du doublon de ligne s il avait ete integre (commandes terminees)
+
+[options="header",cols=">l,>l",frame="none"]
+|====
+^l|revenue_from_raw_lines_eur ^l|revenue_from_core_eur
+|26243.75 |26210.00
+|====
+
+== A3. Paiements identiques (meme commande, date, montant, statut) : doublons ou fractionnement ?
+
+[options="header",cols=">l,>l,>l",frame="none"]
+|====
+^l|identical_groups ^l|groups_where_all_payments_needed ^l|groups_where_one_payment_is_extra
+|27 |27 |0
+|====
+
+== A3 bis. Exemples de paiements identiques
+
+[options="header",cols=">l,>l,<l,>l,<l,>l",frame="none"]
+|====
+^l|order_id ^l|payment_id ^l|paid_on ^l|amount_cents ^l|status ^l|order_items_cents
+|5 |5 |2026-09-01 |2750 |captured |5500
+|5 |6 |2026-09-01 |2750 |captured |5500
+|30 |35 |2026-09-06 |4750 |captured |9500
+|30 |36 |2026-09-06 |4750 |captured |9500
+|35 |41 |2026-09-07 |3875 |captured |7750
+|35 |42 |2026-09-07 |3875 |captured |7750
+|====
+
+== A4. Multiplication des montants : jointure directe articles x paiements (commandes terminees)
+
+[options="header",cols="<l,>l,>l,>l",frame="none"]
+|====
+^l|method ^l|joined_rows ^l|items_eur ^l|payments_eur
+|jointure_directe |720 |29472.50 |52420.00
+|agregation_par_commande |320 |26210.00 |26210.00
+|====
+
+== A5. Impact du statut de commande sur le chiffre d affaires
+
+[options="header",cols="<l,>l,>l",frame="none"]
+|====
+^l|perimeter ^l|order_count ^l|items_eur
+|1_completed |320 |26210.00
+|2_completed_pending |360 |29433.75
+|3_tous_statuts |400 |32717.50
+|====
+
+== A6. Commandes annulees avec paiement encaisse
+
+[options="header",cols=">l,>l,>l",frame="none"]
+|====
+^l|cancelled_orders_with_capture ^l|captured_payments ^l|captured_eur
+|40 |80 |3283.75
+|====

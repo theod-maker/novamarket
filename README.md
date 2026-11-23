@@ -34,7 +34,7 @@ Depuis un éditeur SQL sur l'hôte : `127.0.0.1:15432`, base `novamarket`, utili
 | `sql/05_anomalies.sql` | démonstrations M4 |
 | `docs/modele.md` | M1 : grain, schéma annoté, choix justifiés |
 | `docs/anomalies.md` | M4 : tableau anomalie, détection, effet, décision |
-| `resultats/` | sorties de la dernière exécution |
+| `resultats/` | sorties de la dernière exécution : `.adoc` (tableaux lisibles sur GitHub) et `.txt` (terminal) |
 
 ## Volumes
 

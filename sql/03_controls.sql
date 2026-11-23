@@ -1,3 +1,4 @@
+\echo ''
 \echo '== Volumes recus, integres et rejetes par source'
 WITH volumes AS (
     SELECT 'customers.csv' AS source_file,
@@ -27,11 +28,13 @@ LEFT JOIN quality.rejected_rows AS r ON r.source_file = v.source_file
 GROUP BY v.source_file, v.received_rows, v.integrated_rows
 ORDER BY v.source_file;
 
+\echo ''
 \echo '== Journal des rejets'
 SELECT source_file, source_row, source_key, reason, raw_record
 FROM quality.rejected_rows
 ORDER BY source_file, source_row;
 
+\echo ''
 \echo '== Controles de coherence (chaque ligne doit valoir 0)'
 SELECT 'orders_without_items' AS check_name, count(*) AS failing_rows
 FROM core.orders AS o

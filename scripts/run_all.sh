@@ -15,5 +15,7 @@ run_psql -q --single-transaction < sql/02_import.sql
 mkdir -p resultats
 for step in 03_controls 04_indicators 05_anomalies; do
   run_psql -P pager=off < "sql/${step}.sql" > "resultats/${step}.txt"
-  echo "resultats/${step}.txt"
+  run_psql -P pager=off -P format=asciidoc -P footer=off < "sql/${step}.sql" \
+    > "resultats/${step}.adoc"
+  echo "resultats/${step}.txt resultats/${step}.adoc"
 done
