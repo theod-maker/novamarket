@@ -65,4 +65,6 @@ entre articles et paiements.
 - Commandes annulées avec 3 283,75 € encaissés : aucun remboursement dans les sources, point à
   confirmer avec NovaMarket.
 - Catalogue (`products.csv`, `categories.csv`) non intégré : hors périmètre S1.
+- Contrôles limités aux anomalies du périmètre S1 (doublons, statuts, références inexistantes) :
+  une valeur mal typée (texte dans une quantité) arrêterait l'import au lieu d'être rejetée.
 - A1 (normalisation, variantes de jointure) : à faire.

@@ -1,21 +1,21 @@
 
-== I1. Commandes par statut
-  status   | order_count | share_pct 
------------+-------------+-----------
- completed |         320 |      80.0
- cancelled |          40 |      10.0
- pending   |          40 |      10.0
+== I1. Nombre de commandes par statut
+  status   | order_count 
+-----------+-------------
+ completed |         320
+ cancelled |          40
+ pending   |          40
 (3 rows)
 
 
 == I2. Clients sans commande
- customers_without_order | total_customers 
--------------------------+-----------------
-                      30 |             180
+ customers_without_order 
+-------------------------
+                      30
 (1 row)
 
 
-== I2 bis. Detail des clients sans commande
+== I2 bis. Liste des clients sans commande
  customer_id | customer_name |  city  
 -------------+---------------+--------
          151 | Client 0151   | Lille
@@ -52,27 +52,27 @@
 
 
 == I3. Montant des lignes des commandes terminees et panier moyen
-   Denominateur : nombre de commandes au statut completed (une ligne par commande).
+   Denominateur du panier moyen : nombre de commandes terminees (COUNT DISTINCT order_id).
  completed_orders | revenue_cents | revenue_eur | average_basket_eur 
 ------------------+---------------+-------------+--------------------
               320 |       2621000 |    26210.00 |              81.91
 (1 row)
 
 
-== I3 bis. Par mois de commande
- order_month | completed_orders | revenue_eur | average_basket_eur 
--------------+------------------+-------------+--------------------
- 2026-09-01  |              120 |     9717.50 |              80.98
- 2026-10-01  |              124 |    10261.25 |              82.75
- 2026-11-01  |               76 |     6231.25 |              81.99
+== I4. Rapprochement : montant des articles par statut de commande
+  status   | order_count | items_eur 
+-----------+-------------+-----------
+ cancelled |          40 |   3283.75
+ completed |         320 |  26210.00
+ pending   |          40 |   3223.75
 (3 rows)
 
 
-== I4. Rapprochement articles / paiements, agreges par commande avant la jointure
- order_status | order_count | items_eur | captured_eur | pending_payments_eur | orders_with_split_payment | orders_fully_matched 
---------------+-------------+-----------+--------------+----------------------+---------------------------+----------------------
- cancelled    |          40 |   3283.75 |      3283.75 |                 0.00 |                        40 |                   40
- completed    |         320 |  26210.00 |     26210.00 |                 0.00 |                        40 |                  320
- pending      |          40 |   3223.75 |         0.00 |              3223.75 |                         0 |                   40
+== I4 bis. Rapprochement : montant des paiements par statut de commande
+ order_status | payment_status | payment_count | payments_eur 
+--------------+----------------+---------------+--------------
+ cancelled    | captured       |            80 |      3283.75
+ completed    | captured       |           360 |     26210.00
+ pending      | pending        |            40 |      3223.75
 (3 rows)
 

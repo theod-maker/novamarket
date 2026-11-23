@@ -1,23 +1,23 @@
 
-== I1. Commandes par statut
+== I1. Nombre de commandes par statut
 
-[options="header",cols="<l,>l,>l",frame="none"]
+[options="header",cols="<l,>l",frame="none"]
 |====
-^l|status ^l|order_count ^l|share_pct
-|completed |320 |80.0
-|cancelled |40 |10.0
-|pending |40 |10.0
+^l|status ^l|order_count
+|completed |320
+|cancelled |40
+|pending |40
 |====
 
 == I2. Clients sans commande
 
-[options="header",cols=">l,>l",frame="none"]
+[options="header",cols=">l",frame="none"]
 |====
-^l|customers_without_order ^l|total_customers
-|30 |180
+^l|customers_without_order
+|30
 |====
 
-== I2 bis. Detail des clients sans commande
+== I2 bis. Liste des clients sans commande
 
 [options="header",cols=">l,<l,<l",frame="none"]
 |====
@@ -55,7 +55,7 @@
 |====
 
 == I3. Montant des lignes des commandes terminees et panier moyen
-   Denominateur : nombre de commandes au statut completed (une ligne par commande).
+   Denominateur du panier moyen : nombre de commandes terminees (COUNT DISTINCT order_id).
 
 [options="header",cols=">l,>l,>l,>l",frame="none"]
 |====
@@ -63,22 +63,22 @@
 |320 |2621000 |26210.00 |81.91
 |====
 
-== I3 bis. Par mois de commande
+== I4. Rapprochement : montant des articles par statut de commande
 
-[options="header",cols="<l,>l,>l,>l",frame="none"]
+[options="header",cols="<l,>l,>l",frame="none"]
 |====
-^l|order_month ^l|completed_orders ^l|revenue_eur ^l|average_basket_eur
-|2026-09-01 |120 |9717.50 |80.98
-|2026-10-01 |124 |10261.25 |82.75
-|2026-11-01 |76 |6231.25 |81.99
+^l|status ^l|order_count ^l|items_eur
+|cancelled |40 |3283.75
+|completed |320 |26210.00
+|pending |40 |3223.75
 |====
 
-== I4. Rapprochement articles / paiements, agreges par commande avant la jointure
+== I4 bis. Rapprochement : montant des paiements par statut de commande
 
-[options="header",cols="<l,>l,>l,>l,>l,>l,>l",frame="none"]
+[options="header",cols="<l,<l,>l,>l",frame="none"]
 |====
-^l|order_status ^l|order_count ^l|items_eur ^l|captured_eur ^l|pending_payments_eur ^l|orders_with_split_payment ^l|orders_fully_matched
-|cancelled |40 |3283.75 |3283.75 |0.00 |40 |40
-|completed |320 |26210.00 |26210.00 |0.00 |40 |320
-|pending |40 |3223.75 |0.00 |3223.75 |0 |40
+^l|order_status ^l|payment_status ^l|payment_count ^l|payments_eur
+|cancelled |captured |80 |3283.75
+|completed |captured |360 |26210.00
+|pending |pending |40 |3223.75
 |====
