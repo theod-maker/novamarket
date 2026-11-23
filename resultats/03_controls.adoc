@@ -17,6 +17,7 @@
 ^l|source_file ^l|source_row ^l|source_key ^l|reason
 |order_items.csv |801 |7 |doublon
 |order_items.csv |802 |801 |commande inexistante
+|products.csv |25 |3 |doublon
 |====
 
 == Detail des lignes rejetees dans le fichier brut

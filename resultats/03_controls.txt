@@ -14,7 +14,8 @@
 -----------------+------------+------------+----------------------
  order_items.csv |        801 | 7          | doublon
  order_items.csv |        802 | 801        | commande inexistante
-(2 rows)
+ products.csv    |         25 | 3          | doublon
+(3 rows)
 
 
 == Detail des lignes rejetees dans le fichier brut

@@ -1,0 +1,56 @@
+
+== C1. Volumes recus, integres et rejetes du catalogue
+  source_file   | received_rows | integrated_rows | rejected_rows | gap_must_be_zero 
+----------------+---------------+-----------------+---------------+------------------
+ categories.csv |            10 |              10 |             0 |                0
+ products.csv   |            25 |              24 |             1 |                0
+(2 rows)
+
+
+== C2. Rejets du catalogue
+ source_file  | source_row | source_key | reason  |  sku   | product_name 
+--------------+------------+------------+---------+--------+--------------
+ products.csv |         25 | 3          | doublon | NM-003 | Article 03
+(1 row)
+
+
+== C3. Le doublon de produit est-il identique a la premiere fiche ?
+ product_id | source_rows | distinct_versions 
+------------+-------------+-------------------
+ 3          |           2 |                 1
+(1 row)
+
+
+== C4. Couverture des codes produit : lignes de commande sans fiche produit
+ order_items_without_product 
+-----------------------------
+                           0
+(1 row)
+
+
+== C4 bis. Produits du catalogue jamais vendus
+ product_id | product_name 
+------------+--------------
+(0 rows)
+
+
+== C5. Produits rattaches a une categorie qui a des sous-categories
+ product_id | category_id 
+------------+-------------
+(0 rows)
+
+
+== C6. Coherence des dates : ventes avant la date declaree de mise en vente
+ product_id | first_listed_on | first_order_date | lines_before_listing | orders_before_listing | completed_lines_before_listing 
+------------+-----------------+------------------+----------------------+-----------------------+--------------------------------
+          6 | 2026-09-15      | 2026-09-01       |                    6 |                     6 |                              5
+(1 row)
+
+
+== C7. Contrainte ajoutee sur les lignes de commande
+       constraint_name       |                          definition                           
+-----------------------------+---------------------------------------------------------------
+ order_items_order_id_fkey   | FOREIGN KEY (order_id) REFERENCES core.orders(order_id)
+ order_items_product_id_fkey | FOREIGN KEY (product_id) REFERENCES core.products(product_id)
+(2 rows)
+

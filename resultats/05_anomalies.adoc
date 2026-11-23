@@ -6,6 +6,7 @@
 ^l|source_file ^l|reason ^l|rejected_rows
 |order_items.csv |commande inexistante |1
 |order_items.csv |doublon |1
+|products.csv |doublon |1
 |====
 
 == D2. Effet du doublon : montant des commandes terminees avant et apres rejet
