@@ -1,5 +1,5 @@
 
-== A1. Rejets par cause
+== D1. Rejets par cause
    source_file   |        reason        | rejected_rows 
 -----------------+----------------------+---------------
  order_items.csv | commande inexistante |             1
@@ -7,21 +7,21 @@
 (2 rows)
 
 
-== A2. Effet du doublon : montant des commandes terminees avant et apres rejet
+== D2. Effet du doublon : montant des commandes terminees avant et apres rejet
  with_duplicate_eur | without_duplicate_eur 
 --------------------+-----------------------
            26243.75 |              26210.00
 (1 row)
 
 
-== A3. Paiements identiques (meme commande, meme date, meme montant)
- identical_payment_groups 
---------------------------
-                       27
+== D3. Paiements identiques (meme commande, meme date, meme montant)
+ identical_payment_groups | groups_equal_to_order_amount 
+--------------------------+------------------------------
+                       27 |                           27
 (1 row)
 
 
-== A3 bis. Exemples : les deux paiements ensemble egalent le montant de la commande
+== D3 bis. Exemples : les deux paiements ensemble egalent le montant de la commande
  order_id | payment_count | total_paid_cents | order_items_cents 
 ----------+---------------+------------------+-------------------
         5 |             2 |             5500 |              5500
@@ -32,21 +32,21 @@
 (5 rows)
 
 
-== A4. Piege de la jointure articles x paiements (commandes terminees)
+== D4. Piege de la jointure articles x paiements (commandes terminees)
  joined_rows | items_eur_wrong | payments_eur_wrong 
 -------------+-----------------+--------------------
          720 |        29472.50 |           52420.00
 (1 row)
 
 
-== A4 bis. Bonne methode : chaque total calcule separement
+== D4 bis. Bonne methode : chaque total calcule separement
  items_eur | payments_eur 
 -----------+--------------
   26210.00 |     26210.00
 (1 row)
 
 
-== A5. Commandes annulees mais encaissees
+== D5. Commandes annulees mais encaissees
  cancelled_orders | captured_payments | captured_eur 
 ------------------+-------------------+--------------
                40 |                80 |      3283.75

@@ -1,32 +1,40 @@
 \echo ''
 \echo '== Volumes recus, integres et rejetes par source'
 SELECT
-    'customers.csv' AS source_file,
-    (SELECT COUNT(*) FROM reception.customers) AS received_rows,
-    (SELECT COUNT(*) FROM core.customers) AS integrated_rows,
-    (SELECT COUNT(DISTINCT source_row) FROM quality.rejected_rows
-        WHERE source_file = 'customers.csv') AS rejected_rows
-UNION ALL
-SELECT
-    'orders.csv',
-    (SELECT COUNT(*) FROM reception.orders),
-    (SELECT COUNT(*) FROM core.orders),
-    (SELECT COUNT(DISTINCT source_row) FROM quality.rejected_rows
-        WHERE source_file = 'orders.csv')
-UNION ALL
-SELECT
-    'order_items.csv',
-    (SELECT COUNT(*) FROM reception.order_items),
-    (SELECT COUNT(*) FROM core.order_items),
-    (SELECT COUNT(DISTINCT source_row) FROM quality.rejected_rows
-        WHERE source_file = 'order_items.csv')
-UNION ALL
-SELECT
-    'payments.ndjson',
-    (SELECT COUNT(*) FROM reception.payments),
-    (SELECT COUNT(*) FROM core.payments),
-    (SELECT COUNT(DISTINCT source_row) FROM quality.rejected_rows
-        WHERE source_file = 'payments.ndjson');
+    source_file,
+    received_rows,
+    integrated_rows,
+    rejected_rows,
+    received_rows - integrated_rows - rejected_rows AS gap_must_be_zero
+FROM (
+    SELECT
+        'customers.csv' AS source_file,
+        (SELECT COUNT(*) FROM reception.customers) AS received_rows,
+        (SELECT COUNT(*) FROM core.customers) AS integrated_rows,
+        (SELECT COUNT(DISTINCT source_row) FROM quality.rejected_rows
+            WHERE source_file = 'customers.csv') AS rejected_rows
+    UNION ALL
+    SELECT
+        'orders.csv',
+        (SELECT COUNT(*) FROM reception.orders),
+        (SELECT COUNT(*) FROM core.orders),
+        (SELECT COUNT(DISTINCT source_row) FROM quality.rejected_rows
+            WHERE source_file = 'orders.csv')
+    UNION ALL
+    SELECT
+        'order_items.csv',
+        (SELECT COUNT(*) FROM reception.order_items),
+        (SELECT COUNT(*) FROM core.order_items),
+        (SELECT COUNT(DISTINCT source_row) FROM quality.rejected_rows
+            WHERE source_file = 'order_items.csv')
+    UNION ALL
+    SELECT
+        'payments.ndjson',
+        (SELECT COUNT(*) FROM reception.payments),
+        (SELECT COUNT(*) FROM core.payments),
+        (SELECT COUNT(DISTINCT source_row) FROM quality.rejected_rows
+            WHERE source_file = 'payments.ndjson')
+) AS volumes;
 
 \echo ''
 \echo '== Journal des rejets'

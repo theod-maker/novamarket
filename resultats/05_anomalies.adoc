@@ -1,5 +1,5 @@
 
-== A1. Rejets par cause
+== D1. Rejets par cause
 
 [options="header",cols="<l,<l,>l",frame="none"]
 |====
@@ -8,7 +8,7 @@
 |order_items.csv |doublon |1
 |====
 
-== A2. Effet du doublon : montant des commandes terminees avant et apres rejet
+== D2. Effet du doublon : montant des commandes terminees avant et apres rejet
 
 [options="header",cols=">l,>l",frame="none"]
 |====
@@ -16,15 +16,15 @@
 |26243.75 |26210.00
 |====
 
-== A3. Paiements identiques (meme commande, meme date, meme montant)
+== D3. Paiements identiques (meme commande, meme date, meme montant)
 
-[options="header",cols=">l",frame="none"]
+[options="header",cols=">l,>l",frame="none"]
 |====
-^l|identical_payment_groups
-|27
+^l|identical_payment_groups ^l|groups_equal_to_order_amount
+|27 |27
 |====
 
-== A3 bis. Exemples : les deux paiements ensemble egalent le montant de la commande
+== D3 bis. Exemples : les deux paiements ensemble egalent le montant de la commande
 
 [options="header",cols=">l,>l,>l,>l",frame="none"]
 |====
@@ -36,7 +36,7 @@
 |65 |2 |4000 |4000
 |====
 
-== A4. Piege de la jointure articles x paiements (commandes terminees)
+== D4. Piege de la jointure articles x paiements (commandes terminees)
 
 [options="header",cols=">l,>l,>l",frame="none"]
 |====
@@ -44,7 +44,7 @@
 |720 |29472.50 |52420.00
 |====
 
-== A4 bis. Bonne methode : chaque total calcule separement
+== D4 bis. Bonne methode : chaque total calcule separement
 
 [options="header",cols=">l,>l",frame="none"]
 |====
@@ -52,7 +52,7 @@
 |26210.00 |26210.00
 |====
 
-== A5. Commandes annulees mais encaissees
+== D5. Commandes annulees mais encaissees
 
 [options="header",cols=">l,>l,>l",frame="none"]
 |====

@@ -56,8 +56,8 @@ Depuis un éditeur SQL sur l'hôte : `127.0.0.1:15432`, base `novamarket`, utili
 | Paiements encaissés des commandes terminées | 26 210,00 € | égal au montant des articles pour les 320 commandes |
 
 Hypothèses : le chiffre d'affaires se limite aux commandes `completed` ; le montant d'une ligne est
-le prix unitaire de la transaction ; les montants sont agrégés par commande avant toute jointure
-entre articles et paiements.
+le prix unitaire de la transaction ; les totaux des articles et des paiements sont calculés séparément,
+jamais dans une même jointure.
 
 ## État et limites
 
@@ -67,4 +67,4 @@ entre articles et paiements.
 - Catalogue (`products.csv`, `categories.csv`) non intégré : hors périmètre S1.
 - Contrôles limités aux anomalies du périmètre S1 (doublons, statuts, références inexistantes) :
   une valeur mal typée (texte dans une quantité) arrêterait l'import au lieu d'être rejetée.
-- A1 (normalisation, variantes de jointure) : à faire.
+- A1 (approfondissement facultatif : normalisation, variantes de jointure) : non traité.
