@@ -1,0 +1,24 @@
+== Volumes recus, integres et rejetes par source
+   source_file   | received_rows | integrated_rows | rejected_rows | is_balanced 
+-----------------+---------------+-----------------+---------------+-------------
+ customers.csv   |           180 |             180 |             0 | t
+ order_items.csv |           802 |             800 |             2 | t
+ orders.csv      |           400 |             400 |             0 | t
+ payments.ndjson |           480 |             480 |             0 | t
+(4 rows)
+
+== Journal des rejets
+   source_file   | source_row | source_key |     reason      |                                                 raw_record                                                  
+-----------------+------------+------------+-----------------+-------------------------------------------------------------------------------------------------------------
+ order_items.csv |        801 | 7          | duplicate_exact | {"order_id": "4", "quantity": "3", "product_id": "5", "order_item_id": "7", "unit_price_cents": "1125"}
+ order_items.csv |        802 | 801        | orphan_order    | {"order_id": "9999", "quantity": "1", "product_id": "1", "order_item_id": "801", "unit_price_cents": "625"}
+(2 rows)
+
+== Controles de coherence (chaque ligne doit valoir 0)
+                 check_name                  | failing_rows 
+---------------------------------------------+--------------
+ orders_without_items                        |            0
+ payments_before_order                       |            0
+ completed_orders_items_vs_captured_mismatch |            0
+(3 rows)
+

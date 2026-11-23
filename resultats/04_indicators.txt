@@ -1,0 +1,72 @@
+== I1. Commandes par statut
+  status   | order_count | share_pct 
+-----------+-------------+-----------
+ completed |         320 |      80.0
+ cancelled |          40 |      10.0
+ pending   |          40 |      10.0
+(3 rows)
+
+== I2. Clients sans commande
+ customers_without_order | total_customers 
+-------------------------+-----------------
+                      30 |             180
+(1 row)
+
+== I2 bis. Detail des clients sans commande
+ customer_id | customer_name |  city  
+-------------+---------------+--------
+         151 | Client 0151   | Lille
+         152 | Client 0152   | Paris
+         153 | Client 0153   | Lyon
+         154 | Client 0154   | Nantes
+         155 | Client 0155   | Lille
+         156 | Client 0156   | Paris
+         157 | Client 0157   | Lyon
+         158 | Client 0158   | Nantes
+         159 | Client 0159   | Lille
+         160 | Client 0160   | Paris
+         161 | Client 0161   | Lyon
+         162 | Client 0162   | Nantes
+         163 | Client 0163   | Lille
+         164 | Client 0164   | Paris
+         165 | Client 0165   | Lyon
+         166 | Client 0166   | Nantes
+         167 | Client 0167   | Lille
+         168 | Client 0168   | Paris
+         169 | Client 0169   | Lyon
+         170 | Client 0170   | Nantes
+         171 | Client 0171   | Lille
+         172 | Client 0172   | Paris
+         173 | Client 0173   | Lyon
+         174 | Client 0174   | Nantes
+         175 | Client 0175   | Lille
+         176 | Client 0176   | Paris
+         177 | Client 0177   | Lyon
+         178 | Client 0178   | Nantes
+         179 | Client 0179   | Lille
+         180 | Client 0180   | Paris
+(30 rows)
+
+== I3. Montant des lignes des commandes terminees et panier moyen
+   Denominateur : nombre de commandes au statut completed (une ligne par commande).
+ completed_orders | revenue_cents | revenue_eur | average_basket_eur 
+------------------+---------------+-------------+--------------------
+              320 |       2621000 |    26210.00 |              81.91
+(1 row)
+
+== I3 bis. Par mois de commande
+ order_month | completed_orders | revenue_eur | average_basket_eur 
+-------------+------------------+-------------+--------------------
+ 2026-09-01  |              120 |     9717.50 |              80.98
+ 2026-10-01  |              124 |    10261.25 |              82.75
+ 2026-11-01  |               76 |     6231.25 |              81.99
+(3 rows)
+
+== I4. Rapprochement articles / paiements, agreges par commande avant la jointure
+ order_status | order_count | items_eur | captured_eur | pending_payments_eur | orders_with_split_payment | orders_fully_matched 
+--------------+-------------+-----------+--------------+----------------------+---------------------------+----------------------
+ cancelled    |          40 |   3283.75 |      3283.75 |                 0.00 |                        40 |                   40
+ completed    |         320 |  26210.00 |     26210.00 |                 0.00 |                        40 |                  320
+ pending      |          40 |   3223.75 |         0.00 |              3223.75 |                         0 |                   40
+(3 rows)
+
