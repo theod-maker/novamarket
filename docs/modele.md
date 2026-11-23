@@ -8,9 +8,12 @@
 | `orders.csv` | une commande | `order_id` | 1 commande → N articles, N paiements |
 | `order_items.csv` | une ligne d'article d'une commande | `order_item_id` | N lignes → 1 commande |
 | `payments.ndjson` | une opération de paiement | `payment_id` | N paiements → 1 commande |
+| `products.csv` | un produit du catalogue | `product_id` | 1 catégorie → N produits ; 1 produit → N lignes d'articles |
+| `categories.csv` | une catégorie de produits | `category_id` | 1 catégorie parente → N sous-catégories (`parent_category_id` pointe vers la même table) |
 
-`products.csv` et `categories.csv` sont hors périmètre S1 : `product_id` est conservé sans clé
-étrangère vers un catalogue.
+`products.csv` et `categories.csv` sont examinés mais pas intégrés : le dictionnaire des sources
+les place hors périmètre S1. `product_id` est donc conservé sans clé étrangère vers un catalogue.
+À noter pour la suite : `product_id` 3 apparaît deux fois dans `products.csv`.
 
 ## Schéma
 
