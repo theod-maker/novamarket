@@ -1,0 +1,48 @@
+
+== E1. Couverture des periodes : jours couverts par mois
+   Grain de sortie : une ligne par mois de commande, tous statuts.
+ order_month | first_day  |  last_day  | days_with_orders | days_in_month | orders 
+-------------+------------+------------+------------------+---------------+--------
+ 2026-09-01  | 2026-09-01 | 2026-09-30 |               30 |            30 |    150
+ 2026-10-01  | 2026-10-01 | 2026-10-31 |               31 |            31 |    155
+ 2026-11-01  | 2026-11-01 | 2026-11-19 |               19 |            30 |     95
+(3 rows)
+
+
+== E2. Evolution mensuelle du chiffre d affaires avec LAG et LEAD
+   Grain de sortie : une ligne par mois. Perimetre : status = completed.
+ order_month | days_with_orders | completed_orders | revenue_eur | previous_month_eur | next_month_eur | change_pct | revenue_per_day_eur | change_per_day_pct 
+-------------+------------------+------------------+-------------+--------------------+----------------+------------+---------------------+--------------------
+ 2026-09-01  |               30 |              120 |     9717.50 |                    |       10261.25 |            |              323.92 |                   
+ 2026-10-01  |               31 |              124 |    10261.25 |            9717.50 |        6231.25 |        5.6 |              331.01 |                2.2
+ 2026-11-01  |               19 |               76 |     6231.25 |           10261.25 |                |      -39.3 |              327.96 |               -0.9
+(3 rows)
+
+
+== E3. Evolution hebdomadaire (semaines du lundi au dimanche)
+   Grain de sortie : une ligne par semaine. Perimetre : status = completed.
+ week_start | days_with_orders | revenue_eur | change_vs_previous_week_eur | days_since_previous_week |      coverage      
+------------+------------------+-------------+-----------------------------+--------------------------+--------------------
+ 2026-08-31 |                6 |     1877.50 |                             |                          | semaine incomplete
+ 2026-09-07 |                7 |     2421.25 |                      543.75 |                        7 | complete
+ 2026-09-14 |                7 |     2146.25 |                     -275.00 |                        7 | complete
+ 2026-09-21 |                7 |     2438.75 |                      292.50 |                        7 | complete
+ 2026-09-28 |                7 |     2247.50 |                     -191.25 |                        7 | complete
+ 2026-10-05 |                7 |     2217.50 |                      -30.00 |                        7 | complete
+ 2026-10-12 |                7 |     2331.25 |                      113.75 |                        7 | complete
+ 2026-10-19 |                7 |     2218.75 |                     -112.50 |                        7 | complete
+ 2026-10-26 |                7 |     2408.75 |                      190.00 |                        7 | complete
+ 2026-11-02 |                7 |     2161.25 |                     -247.50 |                        7 | complete
+ 2026-11-09 |                7 |     2427.50 |                      266.25 |                        7 | complete
+ 2026-11-16 |                4 |     1313.75 |                    -1113.75 |                        7 | semaine incomplete
+(12 rows)
+
+
+== E4. Coherence des dates ventes / catalogue sur le chiffre d affaires mensuel
+ order_month | revenue_eur | revenue_before_listing_date_eur 
+-------------+-------------+---------------------------------
+ 2026-09-01  |     9717.50 |                           62.50
+ 2026-10-01  |    10261.25 |                                
+ 2026-11-01  |     6231.25 |                                
+(3 rows)
+

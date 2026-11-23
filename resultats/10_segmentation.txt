@@ -1,0 +1,27 @@
+
+== S1. Segmentation des clients en quartiles de chiffre d affaires (NTILE)
+   Population : clients avec au moins une commande terminee.
+   Mesure : CA des lignes des commandes terminees. Ordre : CA decroissant, puis customer_id.
+ quartile | customers | min_revenue_eur | max_revenue_eur | revenue_eur | revenue_share_pct 
+----------+-----------+-----------------+-----------------+-------------+-------------------
+        1 |        30 |          270.00 |          363.75 |     9277.50 |              35.4
+        2 |        30 |          206.25 |          266.25 |     7110.00 |              27.1
+        3 |        30 |          167.50 |          206.25 |     5691.25 |              21.7
+        4 |        30 |           95.00 |          167.50 |     4131.25 |              15.8
+(4 rows)
+
+
+== S2. Population exclue de la segmentation
+ all_customers | segmented_customers | customers_without_order | customers_without_completed_order 
+---------------+---------------------+-------------------------+-----------------------------------
+           180 |                 120 |                      30 |                                30
+(1 row)
+
+
+== S3. Ex aequo coupes par une frontiere de quartile
+ revenue_eur | customers_with_same_revenue |                                 customers_and_quartiles                                 
+-------------+-----------------------------+-----------------------------------------------------------------------------------------
+      206.25 |                          10 | 8 (Q2), 19 (Q2), 25 (Q2), 32 (Q2), 43 (Q2), 49 (Q3), 56 (Q3), 67 (Q3), 73 (Q3), 97 (Q3)
+      167.50 |                           4 | 103 (Q3), 118 (Q4), 127 (Q4), 142 (Q4)
+(2 rows)
+

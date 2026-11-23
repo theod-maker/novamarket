@@ -1,0 +1,81 @@
+
+== R1. Classement des produits par chiffre d affaires (commandes terminees)
+   Grain de sortie : une ligne par produit. Perimetre : status = completed.
+
+[options="header",cols=">l,<l,<l,>l,>l,>l,>l,>l",frame="none"]
+|====
+^l|product_id ^l|product_name ^l|category_name ^l|revenue_eur ^l|units_sold ^l|global_rank ^l|global_dense_rank ^l|rank_in_category
+|23 |Article 23 |Jeux de table |2733.75 |81 |1 |1 |1
+|20 |Article 20 |Randonnée |2430.00 |81 |2 |2 |1
+|17 |Article 17 |Randonnée |2126.25 |81 |3 |3 |2
+|14 |Article 14 |Jardin |1822.50 |81 |4 |4 |1
+|22 |Article 22 |Jeux de table |1690.00 |52 |5 |5 |2
+|11 |Article 11 |Cuisine |1518.75 |81 |6 |6 |1
+|19 |Article 19 |Randonnée |1495.00 |52 |7 |7 |3
+|16 |Article 16 |Jardin |1400.00 |56 |8 |8 |2
+|13 |Article 13 |Jardin |1190.00 |56 |9 |9 |3
+|8 |Article 08 |Outillage |1170.00 |78 |10 |10 |1
+|10 |Article 10 |Cuisine |980.00 |56 |11 |11 |2
+|24 |Article 24 |Jeux de table |910.00 |26 |12 |12 |3
+|5 |Article 05 |Outillage |877.50 |78 |13 |13 |2
+|21 |Article 21 |Jeux de table |812.50 |26 |14 |14 |4
+|7 |Article 07 |Outillage |715.00 |52 |15 |15 |3
+|18 |Article 18 |Randonnée |715.00 |26 |15 |15 |4
+|15 |Article 15 |Jardin |641.25 |27 |17 |16 |4
+|2 |Article 02 |Rangement |585.00 |78 |18 |17 |1
+|12 |Article 12 |Cuisine |540.00 |27 |19 |18 |3
+|4 |Article 04 |Rangement |520.00 |52 |20 |19 |2
+|9 |Article 09 |Cuisine |438.75 |27 |21 |20 |4
+|6 |Article 06 |Outillage |337.50 |27 |22 |21 |4
+|1 |Article 01 |Rangement |325.00 |52 |23 |22 |3
+|3 |Article 03 |Rangement |236.25 |27 |24 |23 |4
+|====
+
+== R2. Ex aequo dans le classement des produits
+
+[options="header",cols=">l,>l,<l",frame="none"]
+|====
+^l|revenue_eur ^l|products_sharing_rank ^l|product_ids
+|715.00 |2 |7, 18
+|====
+
+== R3. Classement des clients par chiffre d affaires, dans leur ville
+   Grain de sortie : une ligne par client ayant au moins une commande terminee.
+
+[options="header",cols="<l,>l,>l,>l,>l",frame="none"]
+|====
+^l|city ^l|rank_in_city ^l|customer_id ^l|completed_orders ^l|revenue_eur
+|Lille |1 |3 |3 |341.25
+|Lille |1 |27 |3 |341.25
+|Lille |1 |75 |3 |341.25
+|Lille |1 |99 |3 |341.25
+|Lyon |1 |9 |3 |363.75
+|Lyon |1 |33 |3 |363.75
+|Lyon |1 |57 |3 |363.75
+|Nantes |1 |34 |3 |311.25
+|Nantes |1 |58 |3 |311.25
+|Nantes |1 |82 |3 |311.25
+|Paris |1 |24 |3 |285.00
+|Paris |1 |48 |3 |285.00
+|Paris |1 |72 |3 |285.00
+|Paris |1 |96 |3 |285.00
+|====
+
+== R4. Effet d une duplication : classement calcule avec le catalogue brut (doublon du produit 3)
+
+[options="header",cols=">l,>l,>l,>l,>l",frame="none"]
+|====
+^l|product_id ^l|clean_revenue_eur ^l|raw_revenue_eur ^l|clean_rank ^l|raw_rank
+|3 |236.25 |472.50 |24 |21
+|9 |438.75 |438.75 |21 |22
+|6 |337.50 |337.50 |22 |23
+|1 |325.00 |325.00 |23 |24
+|====
+
+== R4 bis. Total du chiffre d affaires selon le catalogue utilise
+
+[options="header",cols=">l,>l",frame="none"]
+|====
+^l|with_clean_catalog_eur ^l|with_raw_catalog_eur
+|26210.00 |26446.25
+|====

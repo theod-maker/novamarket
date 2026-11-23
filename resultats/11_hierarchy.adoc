@@ -1,0 +1,62 @@
+
+== H1. Arbre des categories (WITH RECURSIVE), avec controle des cycles
+   Grain de sortie : une ligne par categorie atteinte depuis une racine.
+
+[options="header",cols=">l,>l,<l",frame="none"]
+|====
+^l|category_id ^l|depth ^l|path_names
+|2 |0 |Loisirs
+|4 |1 |Loisirs > Extérieur
+|22 |2 |Loisirs > Extérieur > Jardin
+|31 |2 |Loisirs > Extérieur > Randonnée
+|32 |1 |Loisirs > Jeux de table
+|1 |0 |Maison
+|3 |1 |Maison > Atelier
+|12 |2 |Maison > Atelier > Outillage
+|11 |2 |Maison > Atelier > Rangement
+|21 |1 |Maison > Cuisine
+|====
+
+== H2. Controle des rattachements : categories non atteintes depuis une racine
+
+[options="header",cols=">l,>l,>l,>l",frame="none"]
+|====
+^l|categories_in_catalog ^l|categories_reached ^l|tree_rows ^l|max_depth
+|10 |10 |10 |2
+|====
+
+== H3. Chiffre d affaires consolide par famille (categorie racine)
+   Grain de sortie : une ligne par categorie racine. Perimetre : status = completed.
+
+[options="header",cols="<l,>l,>l,>l",frame="none"]
+|====
+^l|family ^l|products ^l|revenue_eur ^l|share_pct
+|Loisirs |12 |17966.25 |68.5
+|Maison |12 |8243.75 |31.5
+|====
+
+== H4. Chiffre d affaires par niveau de l arbre : risque de double comptage
+   Chaque produit est compte une fois a sa categorie et une fois a chaque ancetre.
+
+[options="header",cols=">l,<l,>l,>l",frame="none"]
+|====
+^l|category_id ^l|category_name ^l|parent_category_id ^l|revenue_including_subcategories_eur
+|1 |Maison |  |8243.75
+|2 |Loisirs |  |17966.25
+|3 |Atelier |1 |4766.25
+|21 |Cuisine |1 |3477.50
+|4 |Extérieur |2 |11820.00
+|32 |Jeux de table |2 |6146.25
+|11 |Rangement |3 |1666.25
+|12 |Outillage |3 |3100.00
+|22 |Jardin |4 |5053.75
+|31 |Randonnée |4 |6766.25
+|====
+
+== H4 bis. Somme de toutes les lignes de H4 comparee au vrai total
+
+[options="header",cols=">l,>l",frame="none"]
+|====
+^l|true_total_eur ^l|sum_over_all_levels_eur
+|26210.00 |69006.25
+|====

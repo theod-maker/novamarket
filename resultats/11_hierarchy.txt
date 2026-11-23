@@ -1,0 +1,57 @@
+
+== H1. Arbre des categories (WITH RECURSIVE), avec controle des cycles
+   Grain de sortie : une ligne par categorie atteinte depuis une racine.
+ category_id | depth |           path_names            
+-------------+-------+---------------------------------
+           2 |     0 | Loisirs
+           4 |     1 | Loisirs > Extérieur
+          22 |     2 | Loisirs > Extérieur > Jardin
+          31 |     2 | Loisirs > Extérieur > Randonnée
+          32 |     1 | Loisirs > Jeux de table
+           1 |     0 | Maison
+           3 |     1 | Maison > Atelier
+          12 |     2 | Maison > Atelier > Outillage
+          11 |     2 | Maison > Atelier > Rangement
+          21 |     1 | Maison > Cuisine
+(10 rows)
+
+
+== H2. Controle des rattachements : categories non atteintes depuis une racine
+ categories_in_catalog | categories_reached | tree_rows | max_depth 
+-----------------------+--------------------+-----------+-----------
+                    10 |                 10 |        10 |         2
+(1 row)
+
+
+== H3. Chiffre d affaires consolide par famille (categorie racine)
+   Grain de sortie : une ligne par categorie racine. Perimetre : status = completed.
+ family  | products | revenue_eur | share_pct 
+---------+----------+-------------+-----------
+ Loisirs |       12 |    17966.25 |      68.5
+ Maison  |       12 |     8243.75 |      31.5
+(2 rows)
+
+
+== H4. Chiffre d affaires par niveau de l arbre : risque de double comptage
+   Chaque produit est compte une fois a sa categorie et une fois a chaque ancetre.
+ category_id | category_name | parent_category_id | revenue_including_subcategories_eur 
+-------------+---------------+--------------------+-------------------------------------
+           1 | Maison        |                    |                             8243.75
+           2 | Loisirs       |                    |                            17966.25
+           3 | Atelier       |                  1 |                             4766.25
+          21 | Cuisine       |                  1 |                             3477.50
+           4 | Extérieur     |                  2 |                            11820.00
+          32 | Jeux de table |                  2 |                             6146.25
+          11 | Rangement     |                  3 |                             1666.25
+          12 | Outillage     |                  3 |                             3100.00
+          22 | Jardin        |                  4 |                             5053.75
+          31 | Randonnée     |                  4 |                             6766.25
+(10 rows)
+
+
+== H4 bis. Somme de toutes les lignes de H4 comparee au vrai total
+ true_total_eur | sum_over_all_levels_eur 
+----------------+-------------------------
+       26210.00 |                69006.25
+(1 row)
+
