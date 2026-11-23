@@ -9,10 +9,10 @@ BEGIN;
 INSERT INTO quality.rejected_rows (source_file, source_row, source_key, reason)
 SELECT 'customers.csv', r.source_row, r.customer_id, 'doublon'
 FROM reception.customers AS r
-WHERE r.source_row > (
-    SELECT MIN(r2.source_row)
-    FROM reception.customers AS r2
-    WHERE r2.customer_id = r.customer_id
+WHERE r.source_row NOT IN (
+    SELECT MIN(source_row)
+    FROM reception.customers
+    GROUP BY customer_id
 );
 
 INSERT INTO core.customers (customer_id, customer_name, city)
@@ -27,10 +27,10 @@ WHERE NOT EXISTS (
 INSERT INTO quality.rejected_rows (source_file, source_row, source_key, reason)
 SELECT 'orders.csv', r.source_row, r.order_id, 'doublon'
 FROM reception.orders AS r
-WHERE r.source_row > (
-    SELECT MIN(r2.source_row)
-    FROM reception.orders AS r2
-    WHERE r2.order_id = r.order_id
+WHERE r.source_row NOT IN (
+    SELECT MIN(source_row)
+    FROM reception.orders
+    GROUP BY order_id
 );
 
 INSERT INTO quality.rejected_rows (source_file, source_row, source_key, reason)
@@ -58,10 +58,10 @@ WHERE NOT EXISTS (
 INSERT INTO quality.rejected_rows (source_file, source_row, source_key, reason)
 SELECT 'order_items.csv', r.source_row, r.order_item_id, 'doublon'
 FROM reception.order_items AS r
-WHERE r.source_row > (
-    SELECT MIN(r2.source_row)
-    FROM reception.order_items AS r2
-    WHERE r2.order_item_id = r.order_item_id
+WHERE r.source_row NOT IN (
+    SELECT MIN(source_row)
+    FROM reception.order_items
+    GROUP BY order_item_id
 );
 
 INSERT INTO quality.rejected_rows (source_file, source_row, source_key, reason)
@@ -95,10 +95,10 @@ CROSS JOIN LATERAL jsonb_to_record(r.document)
 INSERT INTO quality.rejected_rows (source_file, source_row, source_key, reason)
 SELECT 'payments.ndjson', p.source_row, p.payment_id::text, 'doublon'
 FROM received_payments AS p
-WHERE p.source_row > (
-    SELECT MIN(p2.source_row)
-    FROM received_payments AS p2
-    WHERE p2.payment_id = p.payment_id
+WHERE p.source_row NOT IN (
+    SELECT MIN(source_row)
+    FROM received_payments
+    GROUP BY payment_id
 );
 
 INSERT INTO quality.rejected_rows (source_file, source_row, source_key, reason)
