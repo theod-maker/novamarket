@@ -1,7 +1,7 @@
 # S3 M1 : Contrat de l'API fournisseur
 
 API locale lancée par `docker compose up -d --wait fournisseur`, adresse `http://127.0.0.1:18080`
-(port modifiable avec `NOVAMARKET_API_PORT`). Elle fonctionne sans PostgreSQL.
+(port fixé à 18080 dans le collecteur). Elle fonctionne sans PostgreSQL.
 
 ## Endpoints
 
@@ -21,9 +21,8 @@ redémarrer le service, pour les rejouer.
 Pagination par numéro : 6 pages de 4 offres, soit 24 offres. Chaque page contient `page`,
 `total_pages`, `next_page` et `items`. `next_page` vaut `null` sur la dernière page.
 
-Le collecteur lit la page 1, prend `total_pages` (6), demande les pages 2 à 6 en concurrence, puis
-vérifie que la dernière page a bien `next_page = null`. Une page dont le numéro ne correspond pas à
-celui demandé, ou sans liste `items`, est traitée comme une réponse non conforme.
+Le collecteur lit la page 1, prend `total_pages` (6), puis demande les pages 2 à 6 en concurrence.
+Il s'arrête donc à la page 6, celle dont `next_page` vaut `null`.
 
 ## Une offre
 
@@ -32,8 +31,8 @@ Clé métier : `offer_id`.
 
 | Champ | Type | Règle |
 | --- | --- | --- |
-| `offer_id` | texte | non vide, unique dans le lot (`O001` à `O024`) |
-| `supplier_id` | texte | non vide (`F01`, `F02`, `F03`) |
+| `offer_id` | texte | présent, unique dans le lot (`O001` à `O024`) |
+| `supplier_id` | texte | présent (`F01`, `F02`, `F03`) |
 | `product_id` | entier | existe dans le catalogue S2 (`s2/donnees/products.csv`) |
 | `price_cents` | entier | prix en centimes, `>= 0` |
 | `currency` | texte | `EUR` |

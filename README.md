@@ -104,7 +104,7 @@ port ou le sous-réseau sont déjà pris, voir `SAUVEGARDE_SQL.md` (`NOVAMARKET_
 | Quartiles clients | le 1er quart fait 35,4 % du CA | 120 clients avec commande terminée |
 | Familles | Loisirs 68,5 %, Maison 31,5 % | somme des niveaux = 2,6 fois le total |
 | Index sur `store_id` | 123 ms → 0,02 ms pour 100 lignes ; aucun gain pour 95 % des lignes | `docs/benchmark.md` |
-| Collecte des offres | 0,76 s en séquentiel, 0,39 s avec 3 appels simultanés | `docs/ingestion.md` |
+| Collecte des offres | 0,76 s en séquentiel, 0,38 s avec 3 appels simultanés | `docs/ingestion.md` |
 | Scénario `atelier` | 9 requêtes pour 6 pages (3 reprises), 20 offres publiées | 429, JSON invalide, timeout |
 
 Hypothèses : le chiffre d'affaires se limite aux commandes `completed` ; le montant d'une ligne est le

@@ -1,12 +1,11 @@
-2026-11-24 12:00:19,901 INFO debut run=panne scenario=panne concurrence=3
-2026-11-24 12:00:20,026 INFO page=1 tentative=1 offres=4
-2026-11-24 12:00:20,149 INFO page=4 tentative=1 offres=4
-2026-11-24 12:00:20,150 INFO page=3 tentative=1 offres=4
-2026-11-24 12:00:20,150 INFO page=2 tentative=1 offres=4
-2026-11-24 12:00:20,273 INFO page=5 tentative=1 offres=4
-2026-11-24 12:00:20,273 WARNING page=6 tentative=1 statut=503
-2026-11-24 12:00:20,597 WARNING page=6 tentative=2 statut=503
-2026-11-24 12:00:21,124 WARNING page=6 tentative=3 statut=503
-2026-11-24 12:00:22,049 WARNING page=6 tentative=4 statut=503
-2026-11-24 12:00:22,050 ERROR collecte interrompue, aucun lot publie : page 6 : echec apres 4 tentatives
-2026-11-24 12:00:22,051 INFO bilan {"run": "panne", "scenario": "panne", "concurrence": 3, "appels_simultanes_max": 3, "statut": "echec", "pages_recues": 5, "requetes_http": 9, "reprises": 4, "duree_secondes": 2.148}
+2026-11-24 13:54:19,916 INFO page=1 tentative=1 ok
+2026-11-24 13:54:20,040 INFO page=3 tentative=1 ok
+2026-11-24 13:54:20,041 INFO page=4 tentative=1 ok
+2026-11-24 13:54:20,041 INFO page=2 tentative=1 ok
+2026-11-24 13:54:20,168 INFO page=5 tentative=1 ok
+2026-11-24 13:54:20,169 WARNING page=6 tentative=1 statut=503
+2026-11-24 13:54:20,498 WARNING page=6 tentative=2 statut=503
+2026-11-24 13:54:21,027 WARNING page=6 tentative=3 statut=503
+2026-11-24 13:54:21,956 WARNING page=6 tentative=4 statut=503
+2026-11-24 13:54:21,957 ERROR collecte interrompue, aucun lot publie : page 6 : echec apres 4 tentatives
+2026-11-24 13:54:21,957 INFO bilan {'run': 'panne', 'scenario': 'panne', 'concurrence': 3, 'requetes_http': 9, 'duree_secondes': 2.17, 'statut': 'echec'}

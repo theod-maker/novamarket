@@ -2,14 +2,12 @@
   "run": "clean-sequentiel",
   "scenario": "clean",
   "concurrence": 1,
-  "appels_simultanes_max": 1,
-  "statut": "complet",
-  "pages_recues": 6,
   "requetes_http": 6,
+  "duree_secondes": 0.76,
+  "statut": "complet",
+  "pages": 6,
   "reprises": 0,
-  "duree_secondes": 0.757,
   "lignes_vues": 24,
   "valides": 24,
-  "rejetees": 0,
-  "controle_ok": true
+  "rejetees": 0
 }

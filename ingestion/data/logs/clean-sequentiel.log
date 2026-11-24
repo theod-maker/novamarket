@@ -1,8 +1,7 @@
-2026-11-24 12:00:18,597 INFO debut run=clean-sequentiel scenario=clean concurrence=1
-2026-11-24 12:00:18,725 INFO page=1 tentative=1 offres=4
-2026-11-24 12:00:18,850 INFO page=2 tentative=1 offres=4
-2026-11-24 12:00:18,978 INFO page=3 tentative=1 offres=4
-2026-11-24 12:00:19,106 INFO page=4 tentative=1 offres=4
-2026-11-24 12:00:19,229 INFO page=5 tentative=1 offres=4
-2026-11-24 12:00:19,354 INFO page=6 tentative=1 offres=4
-2026-11-24 12:00:19,355 INFO bilan {"run": "clean-sequentiel", "scenario": "clean", "concurrence": 1, "appels_simultanes_max": 1, "statut": "complet", "pages_recues": 6, "requetes_http": 6, "reprises": 0, "duree_secondes": 0.757, "lignes_vues": 24, "valides": 24, "rejetees": 0, "controle_ok": true}
+2026-11-24 13:54:18,623 INFO page=1 tentative=1 ok
+2026-11-24 13:54:18,750 INFO page=2 tentative=1 ok
+2026-11-24 13:54:18,875 INFO page=3 tentative=1 ok
+2026-11-24 13:54:19,004 INFO page=4 tentative=1 ok
+2026-11-24 13:54:19,128 INFO page=5 tentative=1 ok
+2026-11-24 13:54:19,254 INFO page=6 tentative=1 ok
+2026-11-24 13:54:19,256 INFO bilan {'run': 'clean-sequentiel', 'scenario': 'clean', 'concurrence': 1, 'requetes_http': 6, 'duree_secondes': 0.76, 'statut': 'complet', 'pages': 6, 'reprises': 0, 'lignes_vues': 24, 'valides': 24, 'rejetees': 0}

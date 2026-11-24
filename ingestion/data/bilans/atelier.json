@@ -2,14 +2,12 @@
   "run": "atelier",
   "scenario": "atelier",
   "concurrence": 3,
-  "appels_simultanes_max": 3,
-  "statut": "complet",
-  "pages_recues": 6,
   "requetes_http": 9,
+  "duree_secondes": 1.45,
+  "statut": "complet",
+  "pages": 6,
   "reprises": 3,
-  "duree_secondes": 1.458,
   "lignes_vues": 24,
   "valides": 20,
-  "rejetees": 4,
-  "controle_ok": true
+  "rejetees": 4
 }

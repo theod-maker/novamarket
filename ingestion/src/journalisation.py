@@ -3,18 +3,14 @@ import json
 import logging
 
 
-def creer_journal(dossier_logs, run):
-    dossier_logs.mkdir(parents=True, exist_ok=True)
-    journal = logging.getLogger("collecteur")
-    journal.setLevel(logging.INFO)
-    journal.handlers.clear()
-    format_ligne = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
-    sorties = [logging.StreamHandler(),
-               logging.FileHandler(dossier_logs / f"{run}.log", mode="w", encoding="utf-8")]
-    for sortie in sorties:
-        sortie.setFormatter(format_ligne)
-        journal.addHandler(sortie)
-    return journal
+def creer_journal(dossier, run):
+    dossier.mkdir(parents=True, exist_ok=True)
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(message)s",
+        handlers=[logging.StreamHandler(),
+                  logging.FileHandler(dossier / f"{run}.log", mode="w", encoding="utf-8")])
+    return logging.getLogger("collecteur")
 
 
 def ecrire_jsonl(chemin, lignes):
@@ -26,4 +22,5 @@ def ecrire_jsonl(chemin, lignes):
 
 def ecrire_bilan(chemin, bilan):
     chemin.parent.mkdir(parents=True, exist_ok=True)
-    chemin.write_text(json.dumps(bilan, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    with open(chemin, "w", encoding="utf-8") as fichier:
+        json.dump(bilan, fichier, ensure_ascii=False, indent=2)

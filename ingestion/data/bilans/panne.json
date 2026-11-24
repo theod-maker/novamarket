@@ -2,10 +2,7 @@
   "run": "panne",
   "scenario": "panne",
   "concurrence": 3,
-  "appels_simultanes_max": 3,
-  "statut": "echec",
-  "pages_recues": 5,
   "requetes_http": 9,
-  "reprises": 4,
-  "duree_secondes": 2.148
+  "duree_secondes": 2.17,
+  "statut": "echec"
 }
