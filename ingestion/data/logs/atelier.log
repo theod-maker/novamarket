@@ -1,0 +1,11 @@
+2026-11-24 12:00:22,151 INFO debut run=atelier scenario=atelier concurrence=3
+2026-11-24 12:00:22,274 INFO page=1 tentative=1 offres=4
+2026-11-24 12:00:22,401 WARNING page=2 tentative=1 statut=429
+2026-11-24 12:00:22,401 WARNING page=3 tentative=1 erreur=json invalide
+2026-11-24 12:00:22,526 INFO page=6 tentative=1 offres=4
+2026-11-24 12:00:22,526 INFO page=5 tentative=1 offres=4
+2026-11-24 12:00:22,730 INFO page=3 tentative=2 offres=4
+2026-11-24 12:00:23,276 WARNING page=4 tentative=1 erreur=TimeoutError
+2026-11-24 12:00:23,530 INFO page=2 tentative=2 offres=4
+2026-11-24 12:00:23,608 INFO page=4 tentative=2 offres=4
+2026-11-24 12:00:23,611 INFO bilan {"run": "atelier", "scenario": "atelier", "concurrence": 3, "appels_simultanes_max": 3, "statut": "complet", "pages_recues": 6, "requetes_http": 9, "reprises": 3, "duree_secondes": 1.458, "lignes_vues": 24, "valides": 20, "rejetees": 4, "controle_ok": true}
