@@ -13,22 +13,27 @@ from validation import charger_produits, trier_offres
 URL = "http://127.0.0.1:18080/offers"
 DOSSIER_DATA = Path(__file__).parent.parent / "data"
 CATALOGUE = Path(__file__).parent.parent.parent / "s2" / "donnees" / "products.csv"
+# Limites : 4 essais par page, 1 s maximum par requête
 TENTATIVES_MAX = 4
 TIMEOUT_SECONDES = 1
 
 
+# Lit une page, avec jusqu'à 4 essais en cas d'erreur (M3)
 async def lire_page(session, limite, page, essai):
     journal = essai["journal"]
     parametres = {"page": page, "scenario": essai["scenario"], "run": essai["run"]}
     for tentative in range(1, TENTATIVES_MAX + 1):
         essai["requetes"] += 1
+        # Attente avant le prochain essai : 0,2 s, 0,4 s, 0,8 s
         attente = 0.2 * 2 ** (tentative - 1)
         try:
+            # Sémaphore : 3 requêtes maximum en même temps
             async with limite:
                 async with session.get(URL, params=parametres) as reponse:
                     statut = reponse.status
                     corps = await reponse.text()
                     retry_after = reponse.headers.get("Retry-After")
+            # On garde la réponse brute pour raw/
             essai["bruts"].append({"page": page, "tentative": tentative,
                                    "statut": statut, "corps": corps})
             if statut == 200:
@@ -36,24 +41,33 @@ async def lire_page(session, limite, page, essai):
                 journal.info("page=%s tentative=%s ok", page, tentative)
                 return contenu
             journal.warning("page=%s tentative=%s statut=%s", page, tentative, statut)
+            # 429 : le serveur indique combien de secondes attendre
             if statut == 429 and retry_after:
                 attente = int(retry_after)
+            # Autre erreur 4xx : réessayer ne changerait rien
             elif statut < 500:
                 raise RuntimeError(f"page {page} : erreur {statut}, inutile de reessayer")
+        # 200 mais JSON cassé : on réessaie
         except json.JSONDecodeError:
             journal.warning("page=%s tentative=%s json invalide", page, tentative)
+        # Pas de réponse en 1 s ou erreur réseau : on réessaie
         except (TimeoutError, aiohttp.ClientError) as erreur:
             journal.warning("page=%s tentative=%s %s", page, tentative, type(erreur).__name__)
         if tentative < TENTATIVES_MAX:
+            # asyncio.sleep laisse avancer les autres pages (time.sleep bloquerait tout)
             await asyncio.sleep(attente)
     raise RuntimeError(f"page {page} : echec apres {TENTATIVES_MAX} tentatives")
 
 
+# Récupère toutes les pages en concurrence limitée (M2)
 async def collecter(concurrence, essai):
     limite = asyncio.Semaphore(concurrence)
     timeout = aiohttp.ClientTimeout(total=TIMEOUT_SECONDES)
+    # Une seule session HTTP, réutilisée pour toutes les requêtes
     async with aiohttp.ClientSession(timeout=timeout) as session:
+        # Page 1 d'abord : elle donne total_pages
         premiere = await lire_page(session, limite, 1, essai)
+        # Pages 2 à 6 lancées ensemble, le sémaphore en laisse passer 3
         autres = await asyncio.gather(
             *(lire_page(session, limite, page, essai)
               for page in range(2, premiere["total_pages"] + 1)))
@@ -82,6 +96,7 @@ def main():
     bilan = {"run": arguments.run, "scenario": arguments.scenario,
              "concurrence": arguments.concurrence, "requetes_http": essai["requetes"],
              "duree_secondes": duree, "statut": "echec"}
+    # Seulement si toutes les pages sont là : sinon rien n'est publié
     if pages is not None:
         valides, rejets = trier_offres(pages, charger_produits(CATALOGUE))
         ecrire_jsonl(DOSSIER_DATA / "valid" / "offres.jsonl", valides)

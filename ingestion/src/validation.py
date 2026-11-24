@@ -2,15 +2,18 @@
 import csv
 from datetime import date
 
+# Les 7 champs du contrat de l'API
 CHAMPS = ["offer_id", "supplier_id", "product_id", "price_cents", "currency",
           "available_units", "observed_on"]
 
 
+# Ensemble des product_id du catalogue S2
 def charger_produits(chemin):
     with open(chemin, encoding="utf-8") as fichier:
         return {int(ligne["product_id"]) for ligne in csv.DictReader(fichier)}
 
 
+# Renvoie None si l'offre est valide, sinon la raison du rejet
 def motif_rejet(offre, produits, offres_vues):
     for champ in CHAMPS:
         if champ not in offre:
@@ -25,13 +28,16 @@ def motif_rejet(offre, produits, offres_vues):
         date.fromisoformat(offre["observed_on"])
     except (TypeError, ValueError):
         return "date invalide"
+    # Le produit doit exister dans le catalogue
     if offre["product_id"] not in produits:
         return "produit inexistant"
+    # Doublon : on garde la première offre
     if offre["offer_id"] in offres_vues:
         return "doublon"
     return None
 
 
+# Range chaque offre dans valides ou rejets (avec page, position, motif)
 def trier_offres(pages, produits):
     valides = []
     rejets = []

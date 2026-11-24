@@ -1,10 +1,10 @@
-2026-11-24 13:54:22,152 INFO page=1 tentative=1 ok
-2026-11-24 13:54:22,275 WARNING page=3 tentative=1 json invalide
-2026-11-24 13:54:22,275 WARNING page=2 tentative=1 statut=429
-2026-11-24 13:54:22,398 INFO page=5 tentative=1 ok
-2026-11-24 13:54:22,398 INFO page=6 tentative=1 ok
-2026-11-24 13:54:22,604 INFO page=3 tentative=2 ok
-2026-11-24 13:54:23,154 WARNING page=4 tentative=1 TimeoutError
-2026-11-24 13:54:23,401 INFO page=2 tentative=2 ok
-2026-11-24 13:54:23,483 INFO page=4 tentative=2 ok
-2026-11-24 13:54:23,484 INFO bilan {'run': 'atelier', 'scenario': 'atelier', 'concurrence': 3, 'requetes_http': 9, 'duree_secondes': 1.45, 'statut': 'complet', 'pages': 6, 'reprises': 3, 'lignes_vues': 24, 'valides': 20, 'rejetees': 4}
+2026-11-24 14:24:22,057 INFO page=1 tentative=1 ok
+2026-11-24 14:24:22,183 WARNING page=3 tentative=1 json invalide
+2026-11-24 14:24:22,183 WARNING page=2 tentative=1 statut=429
+2026-11-24 14:24:22,311 INFO page=5 tentative=1 ok
+2026-11-24 14:24:22,312 INFO page=6 tentative=1 ok
+2026-11-24 14:24:22,511 INFO page=3 tentative=2 ok
+2026-11-24 14:24:23,059 WARNING page=4 tentative=1 TimeoutError
+2026-11-24 14:24:23,317 INFO page=2 tentative=2 ok
+2026-11-24 14:24:23,392 INFO page=4 tentative=2 ok
+2026-11-24 14:24:23,395 INFO bilan {'run': 'atelier', 'scenario': 'atelier', 'concurrence': 3, 'requetes_http': 9, 'duree_secondes': 1.46, 'statut': 'complet', 'pages': 6, 'reprises': 3, 'lignes_vues': 24, 'valides': 20, 'rejetees': 4}

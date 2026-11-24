@@ -3,7 +3,7 @@
   "scenario": "atelier",
   "concurrence": 3,
   "requetes_http": 9,
-  "duree_secondes": 1.45,
+  "duree_secondes": 1.46,
   "statut": "complet",
   "pages": 6,
   "reprises": 3,

@@ -1,7 +1,7 @@
-2026-11-24 13:54:18,623 INFO page=1 tentative=1 ok
-2026-11-24 13:54:18,750 INFO page=2 tentative=1 ok
-2026-11-24 13:54:18,875 INFO page=3 tentative=1 ok
-2026-11-24 13:54:19,004 INFO page=4 tentative=1 ok
-2026-11-24 13:54:19,128 INFO page=5 tentative=1 ok
-2026-11-24 13:54:19,254 INFO page=6 tentative=1 ok
-2026-11-24 13:54:19,256 INFO bilan {'run': 'clean-sequentiel', 'scenario': 'clean', 'concurrence': 1, 'requetes_http': 6, 'duree_secondes': 0.76, 'statut': 'complet', 'pages': 6, 'reprises': 0, 'lignes_vues': 24, 'valides': 24, 'rejetees': 0}
+2026-11-24 14:24:18,407 INFO page=1 tentative=1 ok
+2026-11-24 14:24:18,531 INFO page=2 tentative=1 ok
+2026-11-24 14:24:18,658 INFO page=3 tentative=1 ok
+2026-11-24 14:24:18,782 INFO page=4 tentative=1 ok
+2026-11-24 14:24:18,911 INFO page=5 tentative=1 ok
+2026-11-24 14:24:19,041 INFO page=6 tentative=1 ok
+2026-11-24 14:24:19,047 INFO bilan {'run': 'clean-sequentiel', 'scenario': 'clean', 'concurrence': 1, 'requetes_http': 6, 'duree_secondes': 0.76, 'statut': 'complet', 'pages': 6, 'reprises': 0, 'lignes_vues': 24, 'valides': 24, 'rejetees': 0}
