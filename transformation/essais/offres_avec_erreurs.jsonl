@@ -1,0 +1,4 @@
+{"offer_id": "O001", "supplier_id": "F01", "product_id": 1, "price_cents": 625, "currency": "EUR", "available_units": 2, "observed_on": "2026-11-24"}
+{"offer_id": "O901", "supplier_id": "F01", "product_id": 9999, "price_cents": 500, "currency": "EUR", "available_units": 3, "observed_on": "2026-11-24"}
+{"offer_id": "O902", "supplier_id": "F09", "product_id": 2, "price_cents": 500, "currency": "EUR", "available_units": 3, "observed_on": "2026-11-24"}
+{"offer_id": "O903", "supplier_id": "F02", "product_id": 3, "price_cents": 500, "currency": "EUR", "available_units": 3, "observed_on": "2026-02-30"}
