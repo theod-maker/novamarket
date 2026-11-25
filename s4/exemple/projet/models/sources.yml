@@ -1,0 +1,6 @@
+version: 2
+sources:
+  - name: capteurs
+    schema: s4_exemple
+    tables:
+      - name: releves
