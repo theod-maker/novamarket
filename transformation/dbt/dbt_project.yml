@@ -5,3 +5,12 @@ profile: novamarket_dbt
 model-paths: ["models"]
 test-paths: ["tests"]
 snapshot-paths: ["snapshots"]
+
+models:
+  novamarket_dbt:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: ephemeral
+    marts:
+      +materialized: table

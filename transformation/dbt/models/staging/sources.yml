@@ -1,0 +1,50 @@
+version: 2
+
+sources:
+  - name: fournisseur
+    description: Offres chargées par transformation/chargement_postgres.py
+    schema: fournisseur
+    tables:
+      - name: offres
+        description: Une ligne par offre et par date d'observation
+        columns:
+          - name: offer_id
+            data_tests:
+              - not_null
+          - name: observed_on
+            data_tests:
+              - not_null
+          - name: currency
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: ["EUR"]
+
+  - name: core
+    description: Tables validées en S1 et S2
+    schema: core
+    tables:
+      - name: products
+        columns:
+          - name: product_id
+            data_tests:
+              - unique
+              - not_null
+      - name: categories
+        columns:
+          - name: category_id
+            data_tests:
+              - unique
+              - not_null
+      - name: orders
+        columns:
+          - name: order_id
+            data_tests:
+              - unique
+              - not_null
+      - name: order_items
+        columns:
+          - name: order_item_id
+            data_tests:
+              - unique
+              - not_null

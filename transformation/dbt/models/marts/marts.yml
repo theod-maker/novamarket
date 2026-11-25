@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: mart_offres_fournisseurs
+    description: >
+      Grain : une offre observée à une date, comme stg_offres. Chaque offre est comparée au prix
+      moyen de vente du produit sur les commandes terminées.
+    columns:
+      - name: offer_id
+        data_tests:
+          - not_null
+      - name: units_sold
+        data_tests:
+          - not_null

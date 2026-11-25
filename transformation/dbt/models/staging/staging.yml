@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: stg_offres
+    description: "Grain : une offre (offer_id) observée à une date (observed_on)"
+    columns:
+      - name: offer_id
+        data_tests:
+          - not_null
+      - name: product_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_produits')
+                field: product_id
+      - name: price_eur
+        data_tests:
+          - not_null
+
+  - name: stg_produits
+    description: "Grain : un produit du catalogue"
+    columns:
+      - name: product_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_categories
+    description: "Grain : une catégorie"
+    columns:
+      - name: category_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_commandes
+    description: "Grain : une commande"
+    columns:
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+      - name: status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["completed", "pending", "cancelled"]
+
+  - name: stg_lignes_commande
+    description: "Grain : une ligne de commande"
+    columns:
+      - name: order_item_id
+        data_tests:
+          - unique
+          - not_null
