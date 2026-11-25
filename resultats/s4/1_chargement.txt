@@ -1,0 +1,29 @@
+== 1er chargement ==
+20 offres lues dans ingestion/data/valid/offres.jsonl
+valides : 20 / rejetees : 0
+inserees : 20 / deja presentes : 0
+
+== 2e chargement du meme lot ==
+20 offres lues dans ingestion/data/valid/offres.jsonl
+valides : 20 / rejetees : 0
+inserees : 0 / deja presentes : 20
+
+== Lot avec erreurs de contenu ==
+4 offres lues dans transformation/essais/offres_avec_erreurs.jsonl
+valides : 1 / rejetees : 3
+inserees : 0 / deja presentes : 1
+  rejet O901 : produit inconnu
+  rejet O902 : fournisseur inconnu
+  rejet O903 : date invalide
+
+== Lot qui echoue en base au milieu de la transaction ==
+2 offres lues dans transformation/essais/offres_echec_milieu.jsonl
+ECHEC : chargement annule, aucune offre ecrite -> integer out of range
+echec attendu
+
+== Offres en base apres les 4 passages ==
+ offres | offres_de_test 
+--------+----------------
+     20 |              0
+(1 row)
+

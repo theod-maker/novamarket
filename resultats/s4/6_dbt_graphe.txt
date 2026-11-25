@@ -1,0 +1,10 @@
+19:14:41  Running with dbt=1.11.17
+19:14:42  Registered adapter: postgres=1.10.2
+19:14:42  Found 29 data tests, 7 models, 5 sources, 477 macros
+int_ventes_par_produit
+mart_offres_fournisseurs
+stg_categories
+stg_commandes
+stg_lignes_commande
+stg_offres
+stg_produits

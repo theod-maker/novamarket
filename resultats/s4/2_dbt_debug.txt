@@ -1,0 +1,36 @@
+19:14:36  Running with dbt=1.11.17
+19:14:36  dbt version: 1.11.17
+19:14:36  python version: 3.12.16
+19:14:36  python path: /usr/local/bin/python3.12
+19:14:36  os info: Linux-6.12.76-linuxkit-aarch64-with-glibc2.36
+19:14:36  Using profiles dir at /work/profil
+19:14:36  Using profiles.yml file at /work/profil/profiles.yml
+19:14:36  Using dbt_project.yml file at /projet/dbt_project.yml
+19:14:36  adapter type: postgres
+19:14:36  adapter version: 1.10.2
+19:14:36  Configuration:
+19:14:36    profiles.yml file [OK found and valid]
+19:14:36    dbt_project.yml file [OK found and valid]
+19:14:36  Required dependencies:
+19:14:36   - git [OK found]
+
+19:14:36  Connection:
+19:14:36    host: postgres
+19:14:36    port: 5432
+19:14:36    user: atelier
+19:14:36    database: novamarket
+19:14:36    schema: dbt_dev
+19:14:36    connect_timeout: 10
+19:14:36    role: None
+19:14:36    search_path: None
+19:14:36    keepalives_idle: 0
+19:14:36    sslmode: None
+19:14:36    sslcert: None
+19:14:36    sslkey: None
+19:14:36    sslrootcert: None
+19:14:36    application_name: dbt
+19:14:36    retries: 1
+19:14:36  Registered adapter: postgres=1.10.2
+19:14:36    Connection test: [OK connection ok]
+
+19:14:36  All checks passed!

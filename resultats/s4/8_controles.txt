@@ -1,0 +1,58 @@
+== Volumes : source, staging, mart ==
+             relation             | lignes | unites 
+----------------------------------+--------+--------
+ fournisseur.offres               |     20 |    488
+ dbt_dev.stg_offres               |     20 |    488
+ dbt_dev.mart_offres_fournisseurs |     20 |    488
+(3 rows)
+
+== Relations creees par dbt (l intermediate ephemere n apparait pas) ==
+        table_name        | table_type 
+--------------------------+------------
+ mart_offres_fournisseurs | BASE TABLE
+ stg_categories           | VIEW
+ stg_commandes            | VIEW
+ stg_lignes_commande      | VIEW
+ stg_offres               | VIEW
+ stg_produits             | VIEW
+(6 rows)
+
+== Jointure directe offres x lignes de commande : la multiplication evitee ==
+ lignes_si_jointure_directe 
+----------------------------
+                        666
+(1 row)
+
+== Unites vendues des produits offerts : core contre mart ==
+ core_unites | mart_unites 
+-------------+-------------
+        1039 |        1039
+(1 row)
+
+== Produits du catalogue sans offre chargee ==
+ product_id | product_name 
+------------+--------------
+          5 | Article 05
+         10 | Article 10
+         17 | Article 17
+         24 | Article 24
+(4 rows)
+
+== Mart : resume par fournisseur ==
+ supplier_id | offres | unites_disponibles | valeur_offres_eur | unites_vendues | ecart_min_eur | ecart_max_eur 
+-------------+--------+--------------------+-------------------+----------------+---------------+---------------
+ F01         |      7 |                164 |           4160.00 |            372 |          0.00 |          0.00
+ F02         |      6 |                156 |           4065.00 |            480 |          0.00 |          0.00
+ F03         |      7 |                168 |           3990.00 |            187 |          0.00 |          0.00
+(3 rows)
+
+== Mart : 5 premieres lignes ==
+ offer_id | observed_on | supplier_id | product_name | category_name | offer_price_eur | available_units | units_sold | avg_sale_price_eur | price_gap_eur 
+----------+-------------+-------------+--------------+---------------+-----------------+-----------------+------------+--------------------+---------------
+ O001     | 2026-11-24  | F01         | Article 01   | Rangement     |            6.25 |               2 |         52 |               6.25 |          0.00
+ O002     | 2026-11-24  | F02         | Article 02   | Rangement     |            7.50 |               4 |         78 |               7.50 |          0.00
+ O003     | 2026-11-24  | F03         | Article 03   | Rangement     |            8.75 |               6 |         27 |               8.75 |          0.00
+ O004     | 2026-11-24  | F01         | Article 04   | Rangement     |           10.00 |               8 |         52 |              10.00 |          0.00
+ O006     | 2026-11-24  | F03         | Article 06   | Outillage     |           12.50 |              12 |         27 |              12.50 |          0.00
+(5 rows)
+
